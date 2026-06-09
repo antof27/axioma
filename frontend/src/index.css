@@ -1,0 +1,261 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* CSS Theme Variables */
+:root {
+  --bg-color: #080710;
+  --text-color: #f3f4f6;
+  --glass-bg: rgba(13, 12, 22, 0.55);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-shadow: rgba(0, 0, 0, 0.4);
+  --card-bg-hover: rgba(18, 17, 30, 0.65);
+  --border-hover: rgba(255, 255, 255, 0.15);
+  --card-glow-hover: rgba(99, 102, 241, 0.15);
+  --orb-opacity: 0.25;
+}
+
+.light {
+  --bg-color: #f1f5f9;
+  --text-color: #0f172a;
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(15, 23, 42, 0.08);
+  --glass-shadow: rgba(15, 23, 42, 0.06);
+  --card-bg-hover: rgba(255, 255, 255, 0.9);
+  --border-hover: rgba(15, 23, 42, 0.15);
+  --card-glow-hover: rgba(99, 102, 241, 0.08);
+  --orb-opacity: 0.15;
+}
+
+@layer base {
+  body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.02);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Shifting Background Glow Orbs */
+.orb-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  z-index: -10;
+  pointer-events: none;
+}
+
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: var(--orb-opacity);
+  transition: opacity 0.3s ease;
+}
+
+.orb-1 {
+  background: radial-gradient(circle, #6366f1 0%, rgba(99,102,241,0) 70%);
+  width: 600px;
+  height: 600px;
+  top: -10%;
+  left: -10%;
+  animation: float-orb-1 25s infinite ease-in-out;
+}
+
+.orb-2 {
+  background: radial-gradient(circle, #0ea5e9 0%, rgba(14,165,233,0) 70%);
+  width: 500px;
+  height: 500px;
+  bottom: -5%;
+  right: -5%;
+  animation: float-orb-2 30s infinite ease-in-out;
+}
+
+.orb-3 {
+  background: radial-gradient(circle, #ec4899 0%, rgba(236,72,153,0) 70%);
+  width: 450px;
+  height: 450px;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: float-orb-3 28s infinite ease-in-out;
+}
+
+@keyframes float-orb-1 {
+  0% { transform: translate(0px, 0px) scale(1); }
+  33% { transform: translate(50px, 80px) scale(1.1); }
+  66% { transform: translate(-30px, 40px) scale(0.9); }
+  100% { transform: translate(0px, 0px) scale(1); }
+}
+
+@keyframes float-orb-2 {
+  0% { transform: translate(0px, 0px) scale(1); }
+  33% { transform: translate(-60px, -40px) scale(0.9); }
+  66% { transform: translate(40px, -80px) scale(1.15); }
+  100% { transform: translate(0px, 0px) scale(1); }
+}
+
+@keyframes float-orb-3 {
+  0% { transform: translate(0px, 0px) scale(1); }
+  50% { transform: translate(80px, -60px) scale(1.2); }
+  100% { transform: translate(0px, 0px) scale(1); }
+}
+
+/* Premium Glassmorphism Utility classes */
+.glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 8px 32px 0 var(--glass-shadow);
+  transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.glass-panel-hover {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-panel-hover:hover {
+  background: var(--card-bg-hover);
+  border-color: var(--border-hover);
+  box-shadow: 0 12px 40px 0 var(--card-glow-hover);
+}
+
+.glass-card-accent {
+  position: relative;
+  overflow: hidden;
+}
+
+.glass-card-accent::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transform: translateX(-100%);
+  transition: transform 0.6s ease;
+}
+
+.glass-card-accent:hover::before {
+  transform: translateX(100%);
+}
+
+.text-gradient {
+  background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-primary {
+  background: linear-gradient(135deg, #38bdf8 0%, #818cf8 50%, #f472b6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-gold {
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #d97706 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ==========================================================================
+   Light Mode Styling Overrides (Tailwind Override Selectors)
+   ========================================================================== */
+
+.light .text-white {
+  color: #0f172a !important;
+}
+
+.light .text-gray-100 {
+  color: #1e293b !important;
+}
+
+.light .text-gray-200 {
+  color: #334155 !important;
+}
+
+.light .text-gray-300 {
+  color: #475569 !important;
+}
+
+.light .text-gray-400 {
+  color: #64748b !important;
+}
+
+.light .text-gray-500 {
+  color: #94a3b8 !important;
+}
+
+.light .bg-white\/5 {
+  background-color: rgba(15, 23, 42, 0.05) !important;
+}
+
+.light .border-white\/5 {
+  border-color: rgba(15, 23, 42, 0.05) !important;
+}
+
+.light .border-white\/10 {
+  border-color: rgba(15, 23, 42, 0.08) !important;
+}
+
+.light .hover\:bg-white\/5:hover {
+  background-color: rgba(15, 23, 42, 0.08) !important;
+}
+
+.light .hover\:bg-white\/10:hover {
+  background-color: rgba(15, 23, 42, 0.12) !important;
+}
+
+.light .bg-\[\#080710\] {
+  background-color: #f1f5f9 !important;
+}
+
+.light .bg-\[\#0b0a13\] {
+  background-color: #e2e8f0 !important;
+}
+
+.light .bg-\[\#0c0b13\] {
+  background-color: #ffffff !important;
+}
+
+.light .divide-white\/5 > :not([hidden]) ~ :not([hidden]) {
+  border-color: rgba(15, 23, 42, 0.05) !important;
+}
+
+.light select option {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+}
+
+.light input[type="text"], 
+.light input[type="number"],
+.light select,
+.light textarea {
+  color: #0f172a !important;
+}
+
+.light .text-gradient {
+  background: linear-gradient(135deg, #0f172a 0%, #4338ca 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+}
