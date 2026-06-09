@@ -3,10 +3,783 @@
     {
       "id": 3,
       "name": "Ale"
+    },
+    {
+      "id": 4,
+      "name": "Anto"
     }
   ],
-  "artists": [],
-  "artistDetails": {},
+  "artists": [
+    {
+      "id": 6,
+      "name": "Vildhjarta",
+      "origin": "Hudiksvall Municipality, Hudiksvall Municipality",
+      "bio": "Vildhjarta is a Swedish progressive metal band from Hudiksvall, formed in 2005. The band plays in a Meshuggah-influenced djent-style employing heavily-down-tuned guitars, as well as harmonic minor chord progressions, jarring staccato riffs, and layers of reverberant guitars and atmospheres. The band currently consists of guitarist Calle Thomér, vocalist Vilhelm Bladin, and drummer Buster Odeholm. Since 2025, no original members remain in the band, with the longest-running member being Calle Thomér since joining in 2009.\nThe group released a two-track demo entitled Omnislash in 2009 before they proceeded to sign with Century Media Records in 2011, spawning their debut album Måsstaden that same year. In 2013, they followed up with their first EP, Thousands of Evils, released on an exclusive 1,000-copy vinyl record run. Their second full-length album, Måsstaden under vatten, was released in October 2021.\nThe word \"vildhjärta\" means \"wildheart\" in Swedish. The band's name was inspired by the name of an adventure module for the Swedish tabletop role-playing game Drakar och Demoner.",
+      "catalog_avg": null
+    }
+  ],
+  "artistDetails": {
+    "6": {
+      "id": 6,
+      "name": "Vildhjarta",
+      "bio": "Vildhjarta is a Swedish progressive metal band from Hudiksvall, formed in 2005. The band plays in a Meshuggah-influenced djent-style employing heavily-down-tuned guitars, as well as harmonic minor chord progressions, jarring staccato riffs, and layers of reverberant guitars and atmospheres. The band currently consists of guitarist Calle Thomér, vocalist Vilhelm Bladin, and drummer Buster Odeholm. Since 2025, no original members remain in the band, with the longest-running member being Calle Thomér since joining in 2009.\nThe group released a two-track demo entitled Omnislash in 2009 before they proceeded to sign with Century Media Records in 2011, spawning their debut album Måsstaden that same year. In 2013, they followed up with their first EP, Thousands of Evils, released on an exclusive 1,000-copy vinyl record run. Their second full-length album, Måsstaden under vatten, was released in October 2021.\nThe word \"vildhjärta\" means \"wildheart\" in Swedish. The band's name was inspired by the name of an adventure module for the Swedish tabletop role-playing game Drakar och Demoner.",
+      "origin": "Hudiksvall Municipality, Hudiksvall Municipality",
+      "members": [
+        "Jimmie Åkerström",
+        "Daniel Bergström",
+        "Johan Nyberg",
+        "Calle Thomér",
+        "Daniel Ädel",
+        "Vilhelm Bladin"
+      ],
+      "upcoming_releases": [
+        "Follow Vildhjarta on their official streaming channels for news on tours and new tracks."
+      ],
+      "personal_notes": "Imported from MusicBrainz. Verified discography includes 3 albums and 11 singles/EPs.",
+      "releases": [
+        {
+          "id": 18,
+          "artist_id": 6,
+          "title": "+ ? regnet, the ? +",
+          "type": "single",
+          "release_year": 2025,
+          "artwork_url": "https://coverartarchive.org/release/732b9356-d022-4107-96cf-37a9588dea18/front",
+          "tracks": [
+            {
+              "id": 99,
+              "release_id": 18,
+              "title": "+ ? regnet, the ? +",
+              "duration": 210,
+              "lyrics": "Enjoy the musical journey of + ? regnet, the ? + by Vildhjarta.",
+              "avg_score": null,
+              "userScores": {}
+            }
+          ],
+          "avg_score": null
+        },
+        {
+          "id": 19,
+          "artist_id": 6,
+          "title": "+ där skogen sjunger under evighetens granar +",
+          "type": "album",
+          "release_year": 2025,
+          "artwork_url": "https://coverartarchive.org/release/879d73e1-df7f-484a-adb7-f55346d393a1/front",
+          "tracks": [
+            {
+              "id": 100,
+              "release_id": 19,
+              "title": "+ byta ut alla stjärnor på himlen mot plustecken +",
+              "duration": 225,
+              "lyrics": "Enjoy the musical journey of + byta ut alla stjärnor på himlen mot plustecken + by Vildhjarta.",
+              "avg_score": null,
+              "userScores": {}
+            },
+            {
+              "id": 101,
+              "release_id": 19,
+              "title": "+ två vackra svanar +",
+              "duration": 313,
+              "lyrics": "Enjoy the musical journey of + två vackra svanar + by Vildhjarta.",
+              "avg_score": null,
+              "userScores": {}
+            },
+            {
+              "id": 102,
+              "release_id": 19,
+              "title": "+ sargasso +",
+              "duration": 405,
+              "lyrics": "Enjoy the musical journey of + sargasso + by Vildhjarta.",
+              "avg_score": null,
+              "userScores": {}
+            },
+            {
+              "id": 103,
+              "release_id": 19,
+              "title": "+ ylva +",
+              "duration": 281,
+              "lyrics": "Enjoy the musical journey of + ylva + by Vildhjarta.",
+              "avg_score": null,
+              "userScores": {}
+            },
+            {
+              "id": 104,
+              "release_id": 19,
+              "title": "+ där mossan möter havet +",
+              "duration": 228,
+              "lyrics": "Enjoy the musical journey of + där mossan möter havet + by Vildhjarta.",
+              "avg_score": null,
+              "userScores": {}
+            },
+            {
+              "id": 105,
+              "release_id": 19,
+              "title": "+ röda läppar, söta äpplen +",
+              "duration": 228,
+              "lyrics": "Enjoy the musical journey of + röda läppar, söta äpplen + by Vildhjarta.",
+              "avg_score": null,
+              "userScores": {}
+            },
+            {
+              "id": 106,
+              "release_id": 19,
+              "title": "+ kristallfågel +",
+              "duration": 243,
+              "lyrics": "Enjoy the musical journey of + kristallfågel + by Vildhjarta.",
+              "avg_score": null,
+              "userScores": {}
+            },
+            {
+              "id": 107,
+              "release_id": 19,
+              "title": "+ ? regnet, the ? +",
+              "duration": 210,
+              "lyrics": "Enjoy the musical journey of + ? regnet, the ? + by Vildhjarta.",
+              "avg_score": null,
+              "userScores": {}
+            },
+            {
+              "id": 108,
+              "release_id": 19,
+              "title": "+ hösten som togs ifrån mig +",
+              "duration": 229,
+              "lyrics": "Enjoy the musical journey of + hösten som togs ifrån mig + by Vildhjarta.",
+              "avg_score": null,
+              "userScores": {}
+            },
+            {
+              "id": 109,
+              "release_id": 19,
+              "title": "+ viktlös & evig +",
+              "duration": 399,
+              "lyrics": "Enjoy the musical journey of + viktlös & evig + by Vildhjarta.",
+              "avg_score": null,
+              "userScores": {}
+            },
+            {
+              "id": 110,
+              "release_id": 19,
+              "title": "+ stjärnblödning +",
+              "duration": 208,
+              "lyrics": "Enjoy the musical journey of + stjärnblödning + by Vildhjarta.",
+              "avg_score": null,
+              "userScores": {}
+            },
+            {
+              "id": 111,
+              "release_id": 19,
+              "title": "+ den spanska känslan +",
+              "duration": 446,
+              "lyrics": "Enjoy the musical journey of + den spanska känslan + by Vildhjarta.",
+              "avg_score": null,
+              "userScores": {}
+            }
+          ],
+          "avg_score": null
+        },
+        {
+          "id": 20,
+          "artist_id": 6,
+          "title": "+ sargasso +",
+          "type": "single",
+          "release_year": 2025,
+          "artwork_url": "https://coverartarchive.org/release/882f33a0-e847-44ff-885b-91059a1f15b9/front",
+          "tracks": [
+            {
+              "id": 112,
+              "release_id": 20,
+              "title": "+ sargasso +",
+              "duration": 405,
+              "lyrics": "Enjoy the musical journey of + sargasso + by Vildhjarta.",
+              "avg_score": null,
+              "userScores": {}
+            }
+          ],
+          "avg_score": null
+        },
+        {
+          "id": 21,
+          "artist_id": 6,
+          "title": "+ den spanska känslan +",
+          "type": "single",
+          "release_year": 2023,
+          "artwork_url": "https://coverartarchive.org/release/11d65996-3ec7-4c7c-9955-ca0b8618c966/front",
+          "tracks": [
+            {
+              "id": 113,
+              "release_id": 21,
+              "title": "+ den spanska känslan +",
+              "duration": 446,
+              "lyrics": "Enjoy the musical journey of + den spanska känslan + by Vildhjarta.",
+              "avg_score": null,
+              "userScores": {}
+            }
+          ],
+          "avg_score": null
+        },
+        {
+          "id": 22,
+          "artist_id": 6,
+          "title": "+ kristallfågel +",
+          "type": "single",
+          "release_year": 2023,
+          "artwork_url": "https://coverartarchive.org/release/29f4c50f-16f7-4164-9ae6-b4a1be989d9c/front",
+          "tracks": [
+            {
+              "id": 114,
+              "release_id": 22,
+              "title": "+ kristallfågel +",
+              "duration": 245,
+              "lyrics": "Enjoy the musical journey of + kristallfågel + by Vildhjarta.",
+              "avg_score": null,
+              "userScores": {}
+            }
+          ],
+          "avg_score": null
+        },
+        {
+          "id": 23,
+          "artist_id": 6,
+          "title": "+ ylva +",
+          "type": "single",
+          "release_year": 2023,
+          "artwork_url": "https://coverartarchive.org/release/bfc8f3c9-7100-4d84-8e1f-0253f6c439c6/front",
+          "tracks": [
+            {
+              "id": 115,
+              "release_id": 23,
+              "title": "+ ylva +",
+              "duration": 281,
+              "lyrics": "Enjoy the musical journey of + ylva + by Vildhjarta.",
+              "avg_score": null,
+              "userScores": {}
+            }
+          ],
+          "avg_score": null
+        },
+        {
+          "id": 24,
+          "artist_id": 6,
+          "title": "Måsstaden under vatten",
+          "type": "album",
+          "release_year": 2021,
+          "artwork_url": "https://coverartarchive.org/release/01948bb0-8dd1-47c3-a07e-14b632b4d6a0/front",
+          "tracks": [
+            {
+              "id": 116,
+              "release_id": 24,
+              "title": "Lavender Haze (instrumental)",
+              "duration": 200,
+              "lyrics": "Enjoy the musical journey of Lavender Haze (instrumental) by Vildhjarta.",
+              "avg_score": null,
+              "userScores": {}
+            },
+            {
+              "id": 117,
+              "release_id": 24,
+              "title": "När de du älskar kommer tillbaka från de döda (instrumental)",
+              "duration": 234,
+              "lyrics": "Enjoy the musical journey of När de du älskar kommer tillbaka från de döda (instrumental) by Vildhjarta.",
+              "avg_score": null,
+              "userScores": {}
+            },
+            {
+              "id": 118,
+              "release_id": 24,
+              "title": "Kaos2 (instrumental)",
+              "duration": 241,
+              "lyrics": "Enjoy the musical journey of Kaos2 (instrumental) by Vildhjarta.",
+              "avg_score": null,
+              "userScores": {}
+            },
+            {
+              "id": 119,
+              "release_id": 24,
+              "title": "Toxin (instrumental)",
+              "duration": 174,
+              "lyrics": "Enjoy the musical journey of Toxin (instrumental) by Vildhjarta.",
+              "avg_score": null,
+              "userScores": {}
+            },
+            {
+              "id": 120,
+              "release_id": 24,
+              "title": "Brännmärkt (instrumental)",
+              "duration": 348,
+              "lyrics": "Enjoy the musical journey of Brännmärkt (instrumental) by Vildhjarta.",
+              "avg_score": null,
+              "userScores": {}
+            },
+            {
+              "id": 121,
+              "release_id": 24,
+              "title": "Den helige anden (under vatten) (instrumental)",
+              "duration": 326,
+              "lyrics": "Enjoy the musical journey of Den helige anden (under vatten) (instrumental) by Vildhjarta.",
+              "avg_score": null,
+              "userScores": {}
+            },
+            {
+              "id": 122,
+              "release_id": 24,
+              "title": "Passage Noir (instrumental)",
+              "duration": 267,
+              "lyrics": "Enjoy the musical journey of Passage Noir (instrumental) by Vildhjarta.",
+              "avg_score": null,
+              "userScores": {}
+            },
+            {
+              "id": 123,
+              "release_id": 24,
+              "title": "Måsstadens nationalsång (under vatten) (instrumental)",
+              "duration": 333,
+              "lyrics": "Enjoy the musical journey of Måsstadens nationalsång (under vatten) (instrumental) by Vildhjarta.",
+              "avg_score": null,
+              "userScores": {}
+            },
+            {
+              "id": 124,
+              "release_id": 24,
+              "title": "Heartsmear (instrumental)",
+              "duration": 206,
+              "lyrics": "Enjoy the musical journey of Heartsmear (instrumental) by Vildhjarta.",
+              "avg_score": null,
+              "userScores": {}
+            },
+            {
+              "id": 125,
+              "release_id": 24,
+              "title": "Vagabond (instrumental)",
+              "duration": 438,
+              "lyrics": "Enjoy the musical journey of Vagabond (instrumental) by Vildhjarta.",
+              "avg_score": null,
+              "userScores": {}
+            },
+            {
+              "id": 126,
+              "release_id": 24,
+              "title": "Mitt trötta hjarta (instrumental)",
+              "duration": 236,
+              "lyrics": "Enjoy the musical journey of Mitt trötta hjarta (instrumental) by Vildhjarta.",
+              "avg_score": null,
+              "userScores": {}
+            },
+            {
+              "id": 127,
+              "release_id": 24,
+              "title": "Detta drömmars sköte en slöja till ormars näste (instrumental)",
+              "duration": 186,
+              "lyrics": "Enjoy the musical journey of Detta drömmars sköte en slöja till ormars näste (instrumental) by Vildhjarta.",
+              "avg_score": null,
+              "userScores": {}
+            },
+            {
+              "id": 128,
+              "release_id": 24,
+              "title": "Phantom Assassin (instrumental)",
+              "duration": 178,
+              "lyrics": "Enjoy the musical journey of Phantom Assassin (instrumental) by Vildhjarta.",
+              "avg_score": null,
+              "userScores": {}
+            },
+            {
+              "id": 129,
+              "release_id": 24,
+              "title": "Sunset Sunrise (instrumental)",
+              "duration": 284,
+              "lyrics": "Enjoy the musical journey of Sunset Sunrise (instrumental) by Vildhjarta.",
+              "avg_score": null,
+              "userScores": {}
+            },
+            {
+              "id": 130,
+              "release_id": 24,
+              "title": "Sunset Sunrise Sunset Sunrise (instrumental)",
+              "duration": 360,
+              "lyrics": "Enjoy the musical journey of Sunset Sunrise Sunset Sunrise (instrumental) by Vildhjarta.",
+              "avg_score": null,
+              "userScores": {}
+            },
+            {
+              "id": 131,
+              "release_id": 24,
+              "title": "Penny Royal Poison (instrumental)",
+              "duration": 189,
+              "lyrics": "Enjoy the musical journey of Penny Royal Poison (instrumental) by Vildhjarta.",
+              "avg_score": null,
+              "userScores": {}
+            },
+            {
+              "id": 132,
+              "release_id": 24,
+              "title": "Paaradiso (instrumental)",
+              "duration": 602,
+              "lyrics": "Enjoy the musical journey of Paaradiso (instrumental) by Vildhjarta.",
+              "avg_score": null,
+              "userScores": {}
+            }
+          ],
+          "avg_score": null
+        },
+        {
+          "id": 25,
+          "artist_id": 6,
+          "title": "penny royal poison",
+          "type": "single",
+          "release_year": 2021,
+          "artwork_url": "https://coverartarchive.org/release/09980c66-009b-4b2f-8c3f-d6d256e8e6b6/front",
+          "tracks": [
+            {
+              "id": 133,
+              "release_id": 25,
+              "title": "penny royal poison",
+              "duration": 189,
+              "lyrics": "Enjoy the musical journey of penny royal poison by Vildhjarta.",
+              "avg_score": null,
+              "userScores": {}
+            }
+          ],
+          "avg_score": null
+        },
+        {
+          "id": 26,
+          "artist_id": 6,
+          "title": "toxin",
+          "type": "single",
+          "release_year": 2021,
+          "artwork_url": "https://coverartarchive.org/release/ae976f5c-bdf4-44e9-8a0f-f4d6baeb1820/front",
+          "tracks": [
+            {
+              "id": 134,
+              "release_id": 26,
+              "title": "toxin",
+              "duration": 175,
+              "lyrics": "Enjoy the musical journey of toxin by Vildhjarta.",
+              "avg_score": null,
+              "userScores": {}
+            },
+            {
+              "id": 135,
+              "release_id": 26,
+              "title": "kaos2",
+              "duration": 241,
+              "lyrics": "Enjoy the musical journey of kaos2 by Vildhjarta.",
+              "avg_score": null,
+              "userScores": {}
+            }
+          ],
+          "avg_score": null
+        },
+        {
+          "id": 27,
+          "artist_id": 6,
+          "title": "när de du älskar kommer tillbaka från de döda",
+          "type": "single",
+          "release_year": 2021,
+          "artwork_url": "https://coverartarchive.org/release/eba40ef9-39a1-4ab2-bd7b-6d675ebf60e6/front",
+          "tracks": [
+            {
+              "id": 136,
+              "release_id": 27,
+              "title": "när de du älskar kommer tillbaka från de döda",
+              "duration": 246,
+              "lyrics": "Enjoy the musical journey of när de du älskar kommer tillbaka från de döda by Vildhjarta.",
+              "avg_score": null,
+              "userScores": {}
+            }
+          ],
+          "avg_score": null
+        },
+        {
+          "id": 28,
+          "artist_id": 6,
+          "title": "Den helige anden",
+          "type": "single",
+          "release_year": 2019,
+          "artwork_url": "https://coverartarchive.org/release/bc3c4262-92e7-48bc-9cf0-30dc38b5d68f/front",
+          "tracks": [
+            {
+              "id": 137,
+              "release_id": 28,
+              "title": "Den helige anden",
+              "duration": 325,
+              "lyrics": "Enjoy the musical journey of Den helige anden by Vildhjarta.",
+              "avg_score": null,
+              "userScores": {}
+            }
+          ],
+          "avg_score": null
+        },
+        {
+          "id": 29,
+          "artist_id": 6,
+          "title": "Thousands of Evils",
+          "type": "single",
+          "release_year": 2013,
+          "artwork_url": "https://coverartarchive.org/release/ef350972-429e-424d-b504-adaf29d36421/front",
+          "tracks": [
+            {
+              "id": 138,
+              "release_id": 29,
+              "title": "Introduction: Staos",
+              "duration": 159,
+              "lyrics": "Enjoy the musical journey of Introduction: Staos by Vildhjarta.",
+              "avg_score": null,
+              "userScores": {}
+            },
+            {
+              "id": 139,
+              "release_id": 29,
+              "title": "Längstmedån",
+              "duration": 183,
+              "lyrics": "Enjoy the musical journey of Längstmedån by Vildhjarta.",
+              "avg_score": null,
+              "userScores": {}
+            },
+            {
+              "id": 140,
+              "release_id": 29,
+              "title": "Dimman",
+              "duration": 247,
+              "lyrics": "Enjoy the musical journey of Dimman by Vildhjarta.",
+              "avg_score": null,
+              "userScores": {}
+            },
+            {
+              "id": 141,
+              "release_id": 29,
+              "title": "Regnar bensin",
+              "duration": 141,
+              "lyrics": "Enjoy the musical journey of Regnar bensin by Vildhjarta.",
+              "avg_score": null,
+              "userScores": {}
+            },
+            {
+              "id": 142,
+              "release_id": 29,
+              "title": "En mörk vit lögn",
+              "duration": 131,
+              "lyrics": "Enjoy the musical journey of En mörk vit lögn by Vildhjarta.",
+              "avg_score": null,
+              "userScores": {}
+            },
+            {
+              "id": 143,
+              "release_id": 29,
+              "title": "Dimman från Lützen",
+              "duration": 237,
+              "lyrics": "Enjoy the musical journey of Dimman från Lützen by Vildhjarta.",
+              "avg_score": null,
+              "userScores": {}
+            },
+            {
+              "id": 144,
+              "release_id": 29,
+              "title": "Intermezzo",
+              "duration": 112,
+              "lyrics": "Enjoy the musical journey of Intermezzo by Vildhjarta.",
+              "avg_score": null,
+              "userScores": {}
+            },
+            {
+              "id": 145,
+              "release_id": 29,
+              "title": "Mist förståndet",
+              "duration": 240,
+              "lyrics": "Enjoy the musical journey of Mist förståndet by Vildhjarta.",
+              "avg_score": null,
+              "userScores": {}
+            }
+          ],
+          "avg_score": null
+        },
+        {
+          "id": 30,
+          "artist_id": 6,
+          "title": "Måsstaden",
+          "type": "album",
+          "release_year": 2011,
+          "artwork_url": "https://coverartarchive.org/release/73a6a842-1d01-4ff7-997d-f0c0af0b00e9/front",
+          "tracks": [
+            {
+              "id": 146,
+              "release_id": 30,
+              "title": "Shadow",
+              "duration": 218,
+              "lyrics": "Enjoy the musical journey of Shadow by Vildhjarta.",
+              "avg_score": null,
+              "userScores": {}
+            },
+            {
+              "id": 147,
+              "release_id": 30,
+              "title": "Dagger",
+              "duration": 266,
+              "lyrics": "Enjoy the musical journey of Dagger by Vildhjarta.",
+              "avg_score": null,
+              "userScores": {}
+            },
+            {
+              "id": 148,
+              "release_id": 30,
+              "title": "Eternal Golden Monk",
+              "duration": 232,
+              "lyrics": "Enjoy the musical journey of Eternal Golden Monk by Vildhjarta.",
+              "avg_score": null,
+              "userScores": {}
+            },
+            {
+              "id": 149,
+              "release_id": 30,
+              "title": "Benblåst",
+              "duration": 194,
+              "lyrics": "Enjoy the musical journey of Benblåst by Vildhjarta.",
+              "avg_score": null,
+              "userScores": {}
+            },
+            {
+              "id": 150,
+              "release_id": 30,
+              "title": "Östpeppar",
+              "duration": 116,
+              "lyrics": "Enjoy the musical journey of Östpeppar by Vildhjarta.",
+              "avg_score": null,
+              "userScores": {}
+            },
+            {
+              "id": 151,
+              "release_id": 30,
+              "title": "Traces",
+              "duration": 373,
+              "lyrics": "Enjoy the musical journey of Traces by Vildhjarta.",
+              "avg_score": null,
+              "userScores": {}
+            },
+            {
+              "id": 152,
+              "release_id": 30,
+              "title": "Phobon Nika",
+              "duration": 174,
+              "lyrics": "Enjoy the musical journey of Phobon Nika by Vildhjarta.",
+              "avg_score": null,
+              "userScores": {}
+            },
+            {
+              "id": 153,
+              "release_id": 30,
+              "title": "Måsstadens nationalsång",
+              "duration": 47,
+              "lyrics": "Enjoy the musical journey of Måsstadens nationalsång by Vildhjarta.",
+              "avg_score": null,
+              "userScores": {}
+            },
+            {
+              "id": 154,
+              "release_id": 30,
+              "title": "When No One Walks With You",
+              "duration": 199,
+              "lyrics": "Enjoy the musical journey of When No One Walks With You by Vildhjarta.",
+              "avg_score": null,
+              "userScores": {}
+            },
+            {
+              "id": 155,
+              "release_id": 30,
+              "title": "All These Feelings",
+              "duration": 413,
+              "lyrics": "Enjoy the musical journey of All These Feelings by Vildhjarta.",
+              "avg_score": null,
+              "userScores": {}
+            },
+            {
+              "id": 156,
+              "release_id": 30,
+              "title": "Nojja",
+              "duration": 102,
+              "lyrics": "Enjoy the musical journey of Nojja by Vildhjarta.",
+              "avg_score": null,
+              "userScores": {}
+            },
+            {
+              "id": 157,
+              "release_id": 30,
+              "title": "Deceit",
+              "duration": 309,
+              "lyrics": "Enjoy the musical journey of Deceit by Vildhjarta.",
+              "avg_score": null,
+              "userScores": {}
+            },
+            {
+              "id": 158,
+              "release_id": 30,
+              "title": "The Lone Deranger",
+              "duration": 447,
+              "lyrics": "Enjoy the musical journey of The Lone Deranger by Vildhjarta.",
+              "avg_score": null,
+              "userScores": {}
+            }
+          ],
+          "avg_score": null
+        },
+        {
+          "id": 31,
+          "artist_id": 6,
+          "title": "Omnislash",
+          "type": "single",
+          "release_year": 2009,
+          "artwork_url": "https://coverartarchive.org/release/5da5fe8f-9507-49a0-9db7-407df791192f/front",
+          "tracks": [
+            {
+              "id": 159,
+              "release_id": 31,
+              "title": "Shiver",
+              "duration": 322,
+              "lyrics": "Enjoy the musical journey of Shiver by Vildhjarta.",
+              "avg_score": null,
+              "userScores": {}
+            },
+            {
+              "id": 160,
+              "release_id": 31,
+              "title": "Don’t Fail Me Now (Lady Luck)",
+              "duration": 294,
+              "lyrics": "Enjoy the musical journey of Don’t Fail Me Now (Lady Luck) by Vildhjarta.",
+              "avg_score": null,
+              "userScores": {}
+            },
+            {
+              "id": 161,
+              "release_id": 31,
+              "title": "Deceit",
+              "duration": 386,
+              "lyrics": "Enjoy the musical journey of Deceit by Vildhjarta.",
+              "avg_score": null,
+              "userScores": {}
+            },
+            {
+              "id": 162,
+              "release_id": 31,
+              "title": "Traces",
+              "duration": 352,
+              "lyrics": "Enjoy the musical journey of Traces by Vildhjarta.",
+              "avg_score": null,
+              "userScores": {}
+            },
+            {
+              "id": 163,
+              "release_id": 31,
+              "title": "Focus Snippet",
+              "duration": 165,
+              "lyrics": "Enjoy the musical journey of Focus Snippet by Vildhjarta.",
+              "avg_score": null,
+              "userScores": {}
+            }
+          ],
+          "avg_score": null
+        }
+      ],
+      "catalog_avg": null
+    }
+  },
   "awards": {},
-  "exportedAt": "2026-06-09T18:38:18.231Z"
+  "exportedAt": "2026-06-09T18:47:44.479Z"
 }

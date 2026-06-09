@@ -260,6 +260,10 @@ export default function ArtistDashboard({ currentUser, users, onSelectAlbum }) {
                       alt={alb.title}
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                       loading="lazy"
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=500';
+                      }}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex items-end p-4">
                       {alb.avg_score !== null && (
@@ -298,6 +302,10 @@ export default function ArtistDashboard({ currentUser, users, onSelectAlbum }) {
                       alt={sin.title}
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                       loading="lazy"
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=500';
+                      }}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex items-end p-4">
                       {sin.avg_score !== null && (

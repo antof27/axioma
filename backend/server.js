@@ -281,7 +281,7 @@ async function scrapeArtistMetadata(name) {
   console.log(`Found artist on MusicBrainz: ${officialName} (${mbid})`);
   
   await sleep(1000);
-  const detailsUrl = `https://musicbrainz.org/ws/2/artist/${mbid}?inc=release-groups+artist-rels&fmt=json`;
+  const detailsUrl = `https://musicbrainz.org/ws/2/artist/${mbid}?inc=artist-rels&fmt=json`;
   const detailsRes = await fetch(detailsUrl, { headers: { 'User-Agent': userAgent } });
   if (!detailsRes.ok) {
     throw new Error('MusicBrainz artist details request failed');
@@ -316,67 +316,91 @@ async function scrapeArtistMetadata(name) {
   console.log(`Fetching Wikipedia biography for: ${officialName}`);
   const bio = await fetchWikipediaBio(officialName) || `${officialName} is a progressive artist from ${origin}.`;
   
-  const releaseGroups = detailsData['release-groups'] || [];
+  // Batch fetch releases with recordings to minimize rate-limiting and maximize completeness
+  console.log(`Fetching all releases for: ${officialName}`);
+  const releasesList = [];
+  let offset = 0;
+  let hasMore = true;
+  const limit = 100;
   
-  const albums = [];
-  const singles = [];
+  while (hasMore && releasesList.length < 200) {
+    const url = `https://musicbrainz.org/ws/2/release?artist=${mbid}&inc=recordings+release-groups&limit=${limit}&offset=${offset}&fmt=json`;
+    await sleep(1000);
+    const res = await fetch(url, { headers: { 'User-Agent': userAgent } });
+    if (!res.ok) {
+      console.log(`MusicBrainz release fetch page failed at offset ${offset}`);
+      break;
+    }
+    const data = await res.json();
+    if (!data.releases || data.releases.length === 0) break;
+    releasesList.push(...data.releases);
+    if (data.releases.length < limit) {
+      hasMore = false;
+    } else {
+      offset += limit;
+    }
+  }
   
-  releaseGroups.forEach(rg => {
-    const type = rg['primary-type'];
-    const title = rg.title;
-    const id = rg.id;
-    const yearStr = rg['first-release-date'] ? rg['first-release-date'].split('-')[0] : '';
+  console.log(`Retrieved ${releasesList.length} total raw release entries.`);
+  
+  const uniqueGroups = new Map();
+  const secondaryTypeBlacklist = ['live', 'compilation', 'remix', 'demo', 'interview', 'audiobook', 'spoken word'];
+  
+  const isLiveTitle = (title) => {
+    if (!title) return false;
+    const lower = title.toLowerCase();
+    return lower.includes('(live)') || lower.includes('[live]') || lower.includes('live at') || lower.includes('/ sum (live)');
+  };
+  
+  releasesList.forEach(release => {
+    // Only Official releases
+    if (release.status !== 'Official') return;
+    
+    const rg = release['release-group'];
+    if (!rg) return;
+    
+    const primaryType = rg['primary-type'];
+    if (primaryType !== 'Album' && primaryType !== 'EP' && primaryType !== 'Single') return;
+    
+    // Filter out blacklisted secondary types
+    if (rg['secondary-types']) {
+      const hasBlacklisted = rg['secondary-types'].some(type => 
+        secondaryTypeBlacklist.includes(type.toLowerCase())
+      );
+      if (hasBlacklisted) return;
+    }
+    
+    // Filter out live titles
+    if (isLiveTitle(release.title) || isLiveTitle(rg.title)) return;
+    
+    const rgid = rg.id;
+    const yearStr = release.date ? release.date.split('-')[0] : (rg['first-release-date'] ? rg['first-release-date'].split('-')[0] : '');
     const year = yearStr ? parseInt(yearStr, 10) : new Date().getFullYear();
     
-    if (type === 'Album') {
-      albums.push({ id, title, type: 'album', release_year: year });
-    } else if (type === 'Single' || type === 'EP') {
-      singles.push({ id, title, type: 'single', release_year: year });
+    // Deduplicate release groups (keep oldest release year to represent original release)
+    const existing = uniqueGroups.get(rgid);
+    if (!existing || year < existing.release_year) {
+      uniqueGroups.set(rgid, {
+        releaseId: release.id,
+        rgid: rgid,
+        title: rg.title || release.title,
+        type: primaryType.toLowerCase(),
+        release_year: year,
+        release: release
+      });
     }
   });
   
-  albums.sort((a, b) => b.release_year - a.release_year);
-  singles.sort((a, b) => b.release_year - a.release_year);
-  
-  const selectedRGs = [...albums.slice(0, 5), ...singles.slice(0, 3)];
-  console.log(`Selected ${selectedRGs.length} releases for import.`);
-  
   const releases = [];
   
-  for (const rg of selectedRGs) {
-    console.log(`Importing release: "${rg.title}" (${rg.type})`);
-    
-    let artwork_url = null;
-    try {
-      const caUrl = `https://coverartarchive.org/release-group/${rg.id}`;
-      const caRes = await fetch(caUrl, { headers: { 'User-Agent': userAgent } });
-      if (caRes.ok) {
-        const caData = await caRes.json();
-        const hasFront = caData.images?.some(img => img.front);
-        if (hasFront) {
-          artwork_url = `https://coverartarchive.org/release-group/${rg.id}/front`;
-        }
-      }
-    } catch (e) {
-      console.log(`No cover art in Archive for release group ${rg.id}.`);
-    }
-    
-    if (!artwork_url) {
-      artwork_url = 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=500';
-    }
-    
-    await sleep(1000);
-    const releaseUrl = `https://musicbrainz.org/ws/2/release/?release-group=${rg.id}&inc=recordings&fmt=json`;
-    const releaseRes = await fetch(releaseUrl, { headers: { 'User-Agent': userAgent } });
-    
+  uniqueGroups.forEach(group => {
     const tracks = [];
-    if (releaseRes.ok) {
-      const releaseData = await releaseRes.json();
-      if (releaseData.releases && releaseData.releases.length > 0) {
-        const validRelease = releaseData.releases.find(r => r.media && r.media.length > 0 && r.media[0].tracks && r.media[0].tracks.length > 0) || releaseData.releases[0];
-        const media = validRelease?.media;
-        if (media && media.length > 0 && media[0].tracks) {
-          media[0].tracks.forEach(tr => {
+    const rel = group.release;
+    
+    if (rel.media) {
+      rel.media.forEach(med => {
+        if (med.tracks) {
+          med.tracks.forEach(tr => {
             tracks.push({
               title: tr.title,
               duration: tr.length ? Math.round(tr.length / 1000) : 240,
@@ -384,31 +408,42 @@ async function scrapeArtistMetadata(name) {
             });
           });
         }
-      }
+      });
     }
     
     if (tracks.length === 0) {
       tracks.push({
-        title: rg.title,
+        title: group.title,
         duration: 300,
-        lyrics: `Enjoy the musical journey of ${rg.title} by ${officialName}.`
+        lyrics: `Enjoy the musical journey of ${group.title} by ${officialName}.`
       });
     }
     
+    // Cover Art Archive URL by release ID (guarantees specific artwork)
+    const artwork_url = `https://coverartarchive.org/release/${group.releaseId}/front`;
+    
+    // Map EP to single to fit the DB constraint ('album', 'single') and render under Singles & EPs
+    const dbType = (group.type === 'album') ? 'album' : 'single';
+    
     releases.push({
-      title: rg.title,
-      type: rg.type,
-      release_year: rg.release_year,
+      title: group.title,
+      type: dbType,
+      release_year: group.release_year,
       artwork_url,
       tracks
     });
-  }
+  });
+  
+  // Sort by release year descending
+  releases.sort((a, b) => b.release_year - a.release_year);
   
   const upcoming = [
     `Follow ${officialName} on their official streaming channels for news on tours and new tracks.`
   ];
   
-  const notes = `Imported from MusicBrainz. Verified discography includes ${albums.length} albums and ${singles.length} singles.`;
+  const albumCount = releases.filter(r => r.type === 'album').length;
+  const singleCount = releases.filter(r => r.type === 'single').length;
+  const notes = `Imported from MusicBrainz. Verified discography includes ${albumCount} albums and ${singleCount} singles/EPs.`;
   
   return {
     name: officialName,
