@@ -573,6 +573,18 @@ app.post('/api/artists', async (req, res) => {
   }
 });
 
+// Delete an artist
+app.delete('/api/artists/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    await query.run('DELETE FROM artists WHERE id = ?', [id]);
+    exportSnapshot().catch(console.error);
+    res.json({ success: true, message: `Artist ${id} removed successfully.` });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // Get detailed artist profile
 app.get('/api/artists/:id', async (req, res) => {
   const { id } = req.params;

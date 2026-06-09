@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { api, isStaticMode } from '../utils/api';
-import { Search, Plus, MapPin, Users, Calendar, FileText, ChevronRight, CornerDownRight, Save, Loader } from 'lucide-react';
+import { Search, Plus, MapPin, Users, Calendar, FileText, ChevronRight, CornerDownRight, Save, Loader, Trash2 } from 'lucide-react';
 import GlassCard from './GlassCard';
 
 export default function ArtistDashboard({ currentUser, users, onSelectAlbum }) {
@@ -68,6 +68,21 @@ export default function ArtistDashboard({ currentUser, users, onSelectAlbum }) {
       setTimeout(() => setStatusMsg(''), 4000);
     } finally {
       setAdding(false);
+    }
+  };
+
+  const handleDeleteArtist = async () => {
+    if (!artistDetails) return;
+    const confirmed = window.confirm(`Are you sure you want to permanently delete "${artistDetails.name}" and all associated releases, tracks, and scores? This action is irreversible.`);
+    if (!confirmed) return;
+    
+    try {
+      await api.deleteArtist(artistDetails.id);
+      setSelectedArtist(null);
+      setArtistDetails(null);
+      loadArtists();
+    } catch (err) {
+      alert(`Failed to delete artist: ${err.message}`);
     }
   };
 
@@ -141,15 +156,26 @@ export default function ArtistDashboard({ currentUser, users, onSelectAlbum }) {
             </p>
           </div>
 
-          <div className="flex flex-col gap-4 min-w-[200px] justify-center">
-            {artistDetails.catalog_avg && (
-              <div className="glass-panel p-4 rounded-2xl text-center border-white/10 shadow-lg">
+          <div className="flex flex-col gap-4 min-w-[200px] justify-between items-end">
+            {artistDetails.catalog_avg ? (
+              <div className="glass-panel p-4 rounded-2xl text-center border-white/10 shadow-lg w-full">
                 <span className="text-[10px] uppercase font-bold text-gray-400 tracking-wider">Catalog Rating</span>
                 <div className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-indigo-400 mt-1">
                   {artistDetails.catalog_avg.toFixed(1)} / 10
                 </div>
               </div>
+            ) : (
+              <div />
             )}
+            
+            <button
+              onClick={handleDeleteArtist}
+              disabled={isStaticMode}
+              className="flex items-center justify-center gap-2 text-xs bg-red-500/10 border border-red-500/20 hover:bg-red-500 hover:text-white text-red-400 font-bold px-4 py-2.5 rounded-xl transition-all duration-300 w-full shadow-md mt-auto disabled:opacity-30 disabled:pointer-events-none"
+            >
+              <Trash2 className="w-4 h-4" />
+              <span>Delete Artist</span>
+            </button>
           </div>
         </div>
 

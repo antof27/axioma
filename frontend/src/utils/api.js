@@ -77,6 +77,12 @@ export const api = {
       body: JSON.stringify({ name })
     }).then(handleResponse);
   },
+  deleteArtist: (id) => {
+    if (isStaticMode) return rejectWrite();
+    return fetch(`${API_BASE}/artists/${id}`, {
+      method: 'DELETE'
+    }).then(handleResponse);
+  },
   getArtistDetails: (id) => {
     if (isStaticMode) {
       return ensureSnapshotLoaded().then(data => data.artistDetails[id] || { name: 'Unknown', releases: [], members: [], upcoming_releases: [] });
