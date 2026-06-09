@@ -49,7 +49,7 @@ export default function ArtistDashboard({ currentUser, users, onSelectAlbum }) {
     e.preventDefault();
     if (!newArtistName.trim()) return;
     setAdding(true);
-    setStatusMsg('Mock scraper searching the web for metadata...');
+    setStatusMsg('Searching MusicBrainz and Wikipedia for verified bio, members, and discography...');
     try {
       const result = await api.addArtist(newArtistName.trim());
       setNewArtistName('');

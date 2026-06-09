@@ -227,6 +227,200 @@ function generateProceduralArtist(name) {
   };
 }
 
+// REAL ONLINE METADATA SCRAPER (MusicBrainz + Wikipedia + Cover Art Archive)
+const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+async function fetchWikipediaBio(name) {
+  try {
+    const searchUrl = `https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(name)}&utf8=&format=json&origin=*`;
+    const searchRes = await fetch(searchUrl);
+    if (!searchRes.ok) return null;
+    const searchData = await searchRes.json();
+    const results = searchData.query?.search;
+    if (!results || results.length === 0) return null;
+    
+    const bestTitle = results[0].title;
+    
+    const extractUrl = `https://en.wikipedia.org/w/api.php?action=query&prop=extracts&exintro&explaintext&titles=${encodeURIComponent(bestTitle)}&format=json&origin=*`;
+    const extractRes = await fetch(extractUrl);
+    if (!extractRes.ok) return null;
+    const extractData = await extractRes.json();
+    const pages = extractData.query?.pages;
+    if (pages) {
+      const page = Object.values(pages)[0];
+      if (page && page.extract) {
+        return page.extract;
+      }
+    }
+  } catch (e) {
+    console.error("Wikipedia biography fetch failed:", e);
+  }
+  return null;
+}
+
+async function scrapeArtistMetadata(name) {
+  const userAgent = 'AxiomaMusicHub/1.0.0 ( anton@example.com )';
+  
+  console.log(`Searching MusicBrainz for artist: ${name}`);
+  const searchUrl = `https://musicbrainz.org/ws/2/artist/?query=artist:${encodeURIComponent(name)}&fmt=json`;
+  
+  await sleep(1000);
+  const searchRes = await fetch(searchUrl, { headers: { 'User-Agent': userAgent } });
+  if (!searchRes.ok) {
+    throw new Error('MusicBrainz search request failed');
+  }
+  
+  const searchData = await searchRes.json();
+  if (!searchData.artists || searchData.artists.length === 0) {
+    console.log(`No artist found on MusicBrainz for "${name}"`);
+    return null;
+  }
+  
+  const mbid = searchData.artists[0].id;
+  const officialName = searchData.artists[0].name;
+  console.log(`Found artist on MusicBrainz: ${officialName} (${mbid})`);
+  
+  await sleep(1000);
+  const detailsUrl = `https://musicbrainz.org/ws/2/artist/${mbid}?inc=release-groups+artist-rels&fmt=json`;
+  const detailsRes = await fetch(detailsUrl, { headers: { 'User-Agent': userAgent } });
+  if (!detailsRes.ok) {
+    throw new Error('MusicBrainz artist details request failed');
+  }
+  
+  const detailsData = await detailsRes.json();
+  
+  const originCountry = detailsData.country || '';
+  const beginArea = detailsData['begin-area']?.name || '';
+  const areaName = detailsData.area?.name || '';
+  let origin = '';
+  if (beginArea && areaName) {
+    origin = `${beginArea}, ${areaName}`;
+  } else if (areaName) {
+    origin = areaName;
+  } else {
+    origin = originCountry || 'Unknown';
+  }
+  
+  const members = [];
+  if (detailsData.relations) {
+    detailsData.relations.forEach(rel => {
+      if (rel.type === 'member of band' && rel.artist) {
+        members.push(rel.artist.name);
+      }
+    });
+  }
+  if (members.length === 0) {
+    members.push('Solo Artist');
+  }
+  
+  console.log(`Fetching Wikipedia biography for: ${officialName}`);
+  const bio = await fetchWikipediaBio(officialName) || `${officialName} is a progressive artist from ${origin}.`;
+  
+  const releaseGroups = detailsData['release-groups'] || [];
+  
+  const albums = [];
+  const singles = [];
+  
+  releaseGroups.forEach(rg => {
+    const type = rg['primary-type'];
+    const title = rg.title;
+    const id = rg.id;
+    const yearStr = rg['first-release-date'] ? rg['first-release-date'].split('-')[0] : '';
+    const year = yearStr ? parseInt(yearStr, 10) : new Date().getFullYear();
+    
+    if (type === 'Album') {
+      albums.push({ id, title, type: 'album', release_year: year });
+    } else if (type === 'Single' || type === 'EP') {
+      singles.push({ id, title, type: 'single', release_year: year });
+    }
+  });
+  
+  albums.sort((a, b) => b.release_year - a.release_year);
+  singles.sort((a, b) => b.release_year - a.release_year);
+  
+  const selectedRGs = [...albums.slice(0, 5), ...singles.slice(0, 3)];
+  console.log(`Selected ${selectedRGs.length} releases for import.`);
+  
+  const releases = [];
+  
+  for (const rg of selectedRGs) {
+    console.log(`Importing release: "${rg.title}" (${rg.type})`);
+    
+    let artwork_url = null;
+    try {
+      const caUrl = `https://coverartarchive.org/release-group/${rg.id}`;
+      const caRes = await fetch(caUrl, { headers: { 'User-Agent': userAgent } });
+      if (caRes.ok) {
+        const caData = await caRes.json();
+        const hasFront = caData.images?.some(img => img.front);
+        if (hasFront) {
+          artwork_url = `https://coverartarchive.org/release-group/${rg.id}/front`;
+        }
+      }
+    } catch (e) {
+      console.log(`No cover art in Archive for release group ${rg.id}.`);
+    }
+    
+    if (!artwork_url) {
+      artwork_url = 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=500';
+    }
+    
+    await sleep(1000);
+    const releaseUrl = `https://musicbrainz.org/ws/2/release/?release-group=${rg.id}&inc=recordings&fmt=json`;
+    const releaseRes = await fetch(releaseUrl, { headers: { 'User-Agent': userAgent } });
+    
+    const tracks = [];
+    if (releaseRes.ok) {
+      const releaseData = await releaseRes.json();
+      if (releaseData.releases && releaseData.releases.length > 0) {
+        const validRelease = releaseData.releases.find(r => r.media && r.media.length > 0 && r.media[0].tracks && r.media[0].tracks.length > 0) || releaseData.releases[0];
+        const media = validRelease?.media;
+        if (media && media.length > 0 && media[0].tracks) {
+          media[0].tracks.forEach(tr => {
+            tracks.push({
+              title: tr.title,
+              duration: tr.length ? Math.round(tr.length / 1000) : 240,
+              lyrics: `Enjoy the musical journey of ${tr.title} by ${officialName}.`
+            });
+          });
+        }
+      }
+    }
+    
+    if (tracks.length === 0) {
+      tracks.push({
+        title: rg.title,
+        duration: 300,
+        lyrics: `Enjoy the musical journey of ${rg.title} by ${officialName}.`
+      });
+    }
+    
+    releases.push({
+      title: rg.title,
+      type: rg.type,
+      release_year: rg.release_year,
+      artwork_url,
+      tracks
+    });
+  }
+  
+  const upcoming = [
+    `Follow ${officialName} on their official streaming channels for news on tours and new tracks.`
+  ];
+  
+  const notes = `Imported from MusicBrainz. Verified discography includes ${albums.length} albums and ${singles.length} singles.`;
+  
+  return {
+    name: officialName,
+    origin,
+    bio,
+    members,
+    upcoming,
+    notes,
+    releases
+  };
+}
+
 // -------------------------------------------------------------
 // ENDPOINTS
 // -------------------------------------------------------------
@@ -324,13 +518,22 @@ app.post('/api/artists', async (req, res) => {
     }
 
     // Scrape or Procedural Generation
-    let artistData;
+    let artistData = null;
     if (predefinedArtists[lowerName]) {
       artistData = predefinedArtists[lowerName];
       console.log(`Loaded predefined data for: ${artistData.name}`);
     } else {
-      artistData = generateProceduralArtist(formattedName);
-      console.log(`Procedurally generated data for: ${formattedName}`);
+      try {
+        console.log(`Attempting real online metadata scrape for: ${formattedName}`);
+        artistData = await scrapeArtistMetadata(formattedName);
+      } catch (err) {
+        console.error(`Real online metadata scrape failed for "${formattedName}":`, err);
+      }
+      
+      if (!artistData) {
+        console.log(`Falling back to procedural generation for: ${formattedName}`);
+        artistData = generateProceduralArtist(formattedName);
+      }
     }
 
     // Insert artist
