@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { api } from '../utils/api';
+import { api, isStaticMode } from '../utils/api';
 import { Award, Search, Trophy, Plus, Trash2, ShieldAlert, CheckCircle, Loader } from 'lucide-react';
 import GlassCard from './GlassCard';
 import confetti from 'canvas-confetti';
@@ -146,8 +146,9 @@ export default function WinnersHub() {
                 value={queryVal}
                 onChange={(e) => handleSearch(e.target.value)}
                 onFocus={() => setShowResults(true)}
-                placeholder="Search Artist, Song or Release..."
-                className="w-full bg-white/5 border border-white/10 rounded-xl pl-10 pr-4 py-2.5 text-xs text-white focus:outline-none focus:ring-1 focus:ring-sky-500 placeholder-gray-500 font-semibold"
+                placeholder={isStaticMode ? "Nominations disabled in Archive" : "Search Artist, Song or Release..."}
+                disabled={isStaticMode}
+                className="w-full bg-white/5 border border-white/10 rounded-xl pl-10 pr-4 py-2.5 text-xs text-white focus:outline-none focus:ring-1 focus:ring-sky-500 placeholder-gray-500 font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
               />
 
               {/* Search Dropdown */}
@@ -276,7 +277,8 @@ export default function WinnersHub() {
                     <div className="flex items-center justify-between border-t border-white/5 pt-3 mt-2">
                       <button
                         onClick={() => handleRemoveNomination(nom.id)}
-                        className="text-xs text-gray-500 hover:text-red-400 font-semibold flex items-center gap-1 px-2 py-1 rounded hover:bg-red-500/10 transition-colors"
+                        disabled={isStaticMode}
+                        className="text-xs text-gray-500 hover:text-red-400 font-semibold flex items-center gap-1 px-2 py-1 rounded hover:bg-red-500/10 transition-colors disabled:opacity-30 disabled:pointer-events-none"
                       >
                         <Trash2 className="w-3.5 h-3.5" />
                         <span>Withdraw</span>
@@ -290,7 +292,8 @@ export default function WinnersHub() {
                       ) : (
                         <button
                           onClick={() => handleCrownWinner(nom.id, nom.track_title)}
-                          className="text-xs bg-sky-500/15 border border-sky-500/30 text-sky-400 hover:bg-sky-500 hover:text-white font-extrabold px-3 py-1.5 rounded-xl transition-all"
+                          disabled={isStaticMode}
+                          className="text-xs bg-sky-500/15 border border-sky-500/30 text-sky-400 hover:bg-sky-500 hover:text-white font-extrabold px-3 py-1.5 rounded-xl transition-all disabled:opacity-30 disabled:pointer-events-none"
                         >
                           Crown Winner
                         </button>

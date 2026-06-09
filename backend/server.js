@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
 import path from 'path';
+import fs from 'fs';
 import { fileURLToPath } from 'url';
 import { query, initDb } from './db.js';
 
@@ -247,6 +248,7 @@ app.post('/api/users', async (req, res) => {
   }
   try {
     const result = await query.run('INSERT INTO users (name) VALUES (?)', [name.trim()]);
+    exportSnapshot().catch(console.error);
     res.status(201).json({ id: result.id, name: name.trim() });
   } catch (err) {
     if (err.message.includes('UNIQUE')) {
@@ -262,6 +264,7 @@ app.delete('/api/users/:id', async (req, res) => {
     // Manually delete scores to guarantee cleanup, then delete user (which cascade will also cover)
     await query.run('DELETE FROM scores WHERE user_id = ?', [id]);
     await query.run('DELETE FROM users WHERE id = ?', [id]);
+    exportSnapshot().catch(console.error);
     res.json({ success: true, message: `User ${id} removed successfully.` });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -360,6 +363,7 @@ app.post('/api/artists', async (req, res) => {
       }
     }
 
+    exportSnapshot().catch(console.error);
     res.status(201).json({ id: artistId, name: artistData.name, message: 'Artist successfully added.' });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -437,6 +441,7 @@ app.put('/api/artists/:id/notes', async (req, res) => {
   const { personal_notes } = req.body;
   try {
     await query.run('UPDATE artists SET personal_notes = ? WHERE id = ?', [personal_notes || '', id]);
+    exportSnapshot().catch(console.error);
     res.json({ success: true, message: 'Notes updated successfully.' });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -459,6 +464,7 @@ app.post('/api/scores', async (req, res) => {
     if (score_value === null) {
       // Delete score
       await query.run('DELETE FROM scores WHERE track_id = ? AND user_id = ?', [track_id, user_id]);
+      exportSnapshot().catch(console.error);
       res.json({ success: true, message: 'Score cleared successfully.' });
     } else {
       // Insert or replace score
@@ -470,6 +476,7 @@ app.post('/api/scores', async (req, res) => {
       
       // Return new track average
       const avgRow = await query.get('SELECT AVG(score_value) as avg_score FROM scores WHERE track_id = ?', [track_id]);
+      exportSnapshot().catch(console.error);
       res.json({ 
         success: true, 
         message: 'Score saved successfully.', 
@@ -665,6 +672,7 @@ app.post('/api/two-k-awards/finalist', async (req, res) => {
       'INSERT INTO two_k_awards (year, track_id, is_finalist, is_winner) VALUES (?, ?, 1, 0)',
       [year, track_id]
     );
+    exportSnapshot().catch(console.error);
     res.status(201).json({ id: result.id, success: true });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -686,6 +694,7 @@ app.put('/api/two-k-awards/:id/winner', async (req, res) => {
     // Set this nomination as winner
     await query.run('UPDATE two_k_awards SET is_winner = 1 WHERE id = ?', [id]);
 
+    exportSnapshot().catch(console.error);
     res.json({ success: true, message: 'Winner crowned successfully!' });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -697,11 +706,169 @@ app.delete('/api/two-k-awards/finalist/:id', async (req, res) => {
   const { id } = req.params;
   try {
     await query.run('DELETE FROM two_k_awards WHERE id = ?', [id]);
+    exportSnapshot().catch(console.error);
     res.json({ success: true, message: 'Nomination removed successfully.' });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
+
+// --- Export Database Snapshot to JSON ---
+async function exportSnapshot() {
+  try {
+    console.log('Exporting database snapshot...');
+    
+    // 1. Get users
+    const users = await query.all('SELECT * FROM users ORDER BY name ASC');
+    
+    // 2. Get artists and details
+    const artistsRaw = await query.all('SELECT * FROM artists ORDER BY name ASC');
+    const artists = [];
+    const artistDetails = {};
+    
+    for (const art of artistsRaw) {
+      // Calculate catalog average
+      const avgRow = await query.get(`
+        SELECT AVG(tr_avg.avg_score) as catalog_avg
+        FROM tracks t
+        JOIN releases r ON t.release_id = r.id
+        LEFT JOIN (
+          SELECT track_id, AVG(score_value) as avg_score 
+          FROM scores 
+          GROUP BY track_id
+        ) tr_avg ON t.id = tr_avg.track_id
+        WHERE r.artist_id = ? AND tr_avg.avg_score IS NOT NULL
+      `, [art.id]);
+      
+      const catalog_avg = avgRow?.catalog_avg !== undefined && avgRow.catalog_avg !== null
+        ? parseFloat(avgRow.catalog_avg.toFixed(2)) 
+        : null;
+        
+      const summary = {
+        id: art.id,
+        name: art.name,
+        origin: art.origin,
+        bio: art.bio,
+        catalog_avg
+      };
+      artists.push(summary);
+      
+      // Fetch releases for this artist
+      const releases = await query.all('SELECT * FROM releases WHERE artist_id = ? ORDER BY release_year DESC', [art.id]);
+      const formattedReleases = [];
+      for (const rel of releases) {
+        const tracks = await query.all(`
+          SELECT t.*, 
+            (SELECT AVG(score_value) FROM scores WHERE track_id = t.id) as avg_score
+          FROM tracks t 
+          WHERE t.release_id = ?
+          ORDER BY t.id ASC
+        `, [rel.id]);
+        
+        const tracksWithScores = [];
+        for (const track of tracks) {
+          const scores = await query.all('SELECT user_id, score_value FROM scores WHERE track_id = ?', [track.id]);
+          const userScores = {};
+          scores.forEach(s => {
+            userScores[s.user_id] = s.score_value;
+          });
+          tracksWithScores.push({
+            ...track,
+            avg_score: track.avg_score !== null ? parseFloat(track.avg_score.toFixed(2)) : null,
+            userScores
+          });
+        }
+        
+        const ratedTracks = tracksWithScores.filter(t => t.avg_score !== null);
+        const releaseAvg = ratedTracks.length > 0
+          ? parseFloat((ratedTracks.reduce((sum, t) => sum + t.avg_score, 0) / ratedTracks.length).toFixed(2))
+          : null;
+          
+        formattedReleases.push({
+          ...rel,
+          tracks: tracksWithScores,
+          avg_score: releaseAvg
+        });
+      }
+      
+      artistDetails[art.id] = {
+        ...art,
+        members: art.members ? JSON.parse(art.members) : [],
+        upcoming_releases: art.upcoming_releases ? JSON.parse(art.upcoming_releases) : [],
+        releases: formattedReleases,
+        catalog_avg
+      };
+    }
+    
+    // 3. Get 2K Awards
+    const awardsList = await query.all(`
+      SELECT a.id as award_id, a.year, a.is_finalist, a.is_winner, 
+             t.id as track_id, t.title as track_title, r.title as release_title, 
+             r.artwork_url, art.name as artist_name,
+             (SELECT AVG(score_value) FROM scores WHERE track_id = t.id) as avg_score
+      FROM two_k_awards a
+      JOIN tracks t ON a.track_id = t.id
+      JOIN releases r ON t.release_id = r.id
+      JOIN artists art ON r.artist_id = art.id
+      ORDER BY a.year DESC, a.is_winner DESC, track_title ASC
+    `);
+    
+    const awards = {};
+    awardsList.forEach(item => {
+      const yr = item.year;
+      if (!awards[yr]) {
+        awards[yr] = [];
+      }
+      awards[yr].push({
+        id: item.award_id,
+        year: item.year,
+        is_finalist: !!item.is_finalist,
+        is_winner: !!item.is_winner,
+        track_id: item.track_id,
+        track_title: item.track_title,
+        release_title: item.release_title,
+        artwork_url: item.artwork_url,
+        artist_name: item.artist_name,
+        avg_score: item.avg_score !== null ? parseFloat(item.avg_score.toFixed(2)) : null
+      });
+    });
+    
+    const snapshot = {
+      users,
+      artists,
+      artistDetails,
+      awards,
+      exportedAt: new Date().toISOString()
+    };
+    
+    const snapshotString = JSON.stringify(snapshot, null, 2);
+    
+    // Write to frontend public directory if it exists
+    const pathsToTry = [
+      '/app/frontend_public',
+      path.join(__dirname, '..', 'frontend', 'public')
+    ];
+    
+    for (const p of pathsToTry) {
+      if (fs.existsSync(p)) {
+        try {
+          fs.writeFileSync(path.join(p, 'db_snapshot.json'), snapshotString, 'utf8');
+          console.log(`Successfully wrote snapshot to frontend public directory: ${p}`);
+        } catch (e) {
+          console.error(`Failed to write snapshot to ${p}:`, e);
+        }
+      }
+    }
+    
+    // Fallback/Safety write to backend public so it is served on localhost:3000/db_snapshot.json
+    const backendPublicPath = path.join(__dirname, 'public');
+    if (fs.existsSync(backendPublicPath)) {
+      fs.writeFileSync(path.join(backendPublicPath, 'db_snapshot.json'), snapshotString, 'utf8');
+    }
+  } catch (err) {
+    console.error('Failed to export database snapshot:', err);
+  }
+}
 
 // --- Fallback for Frontend Single Page App Router ---
 app.get('*', (req, res) => {
@@ -710,6 +877,10 @@ app.get('*', (req, res) => {
 
 // Start Server
 initDb()
+  .then(() => {
+    // Perform initial export on startup
+    return exportSnapshot();
+  })
   .then(() => {
     app.listen(PORT, () => {
       console.log(`Music Hub Express server running on port ${PORT}`);

@@ -6,6 +6,7 @@ services:
       - "3000:3000"
     volumes:
       - ./data:/app/data
+      - ./frontend/public:/app/frontend_public
     restart: unless-stopped
     environment:
       - PORT=3000

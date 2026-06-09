@@ -5,7 +5,7 @@ import AlbumDetail from './components/AlbumDetail';
 import StatsDashboard from './components/StatsDashboard';
 import WinnersHub from './components/WinnersHub';
 import UserManager from './components/UserManager';
-import { api } from './utils/api';
+import { api, isStaticMode } from './utils/api';
 import { Loader } from 'lucide-react';
 
 export default function App() {
@@ -117,6 +117,16 @@ export default function App() {
 
           {/* Core Content Viewport */}
           <main className="flex-1 p-6 md:p-10 pb-28 md:pb-10 max-w-7xl w-full mx-auto overflow-y-auto">
+            {isStaticMode && (
+              <div className="mb-6 p-4 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-300 text-xs md:text-sm font-semibold flex items-center justify-between backdrop-blur-md">
+                <div className="flex items-center gap-2">
+                  <span className="w-2.5 h-2.5 rounded-full bg-amber-500 animate-pulse"></span>
+                  <span><strong>Read-Only Mode:</strong> Viewing static backup from GitHub Pages. Run locally to edit.</span>
+                </div>
+                <span className="text-[10px] uppercase tracking-wider bg-amber-500/20 px-2 py-0.5 rounded text-amber-200">Archive</span>
+              </div>
+            )}
+
             {activeTab === 'artists' && (
               selectedAlbum ? (
                 <AlbumDetail

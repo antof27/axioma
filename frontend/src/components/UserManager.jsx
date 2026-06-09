@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { api } from '../utils/api';
+import { api, isStaticMode } from '../utils/api';
 import { UserPlus, Trash2, Shield, Users, AlertTriangle, HelpCircle, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -79,8 +79,9 @@ export default function UserManager({ users, reloadUsers }) {
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                placeholder="e.g. John Doe"
-                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:ring-1 focus:ring-sky-500 placeholder-gray-500 transition-colors"
+                placeholder={isStaticMode ? "Disabled in Archive Mode" : "e.g. John Doe"}
+                disabled={isStaticMode || loading}
+                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:ring-1 focus:ring-sky-500 placeholder-gray-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 maxLength={30}
                 required
               />
@@ -90,7 +91,7 @@ export default function UserManager({ users, reloadUsers }) {
 
             <button
               type="submit"
-              disabled={loading || !name.trim()}
+              disabled={isStaticMode || loading || !name.trim()}
               className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-sky-500 to-indigo-500 hover:from-sky-600 hover:to-indigo-600 text-white font-semibold py-3 px-4 rounded-xl text-sm transition-all duration-300 shadow-[0_4px_15px_rgba(99,102,241,0.3)] hover:scale-[1.01] disabled:opacity-50 disabled:pointer-events-none"
             >
               Register Judge
@@ -124,9 +125,9 @@ export default function UserManager({ users, reloadUsers }) {
                 </div>
                 <button
                   onClick={() => handleDeleteClick(u.id, u.name)}
-                  disabled={loading}
-                  className="p-1.5 rounded-lg text-gray-400 hover:text-red-400 hover:bg-red-500/10 transition-all opacity-60 hover:opacity-100"
-                  title="Remove Judge"
+                  disabled={isStaticMode || loading}
+                  className="p-1.5 rounded-lg text-gray-400 hover:text-red-400 hover:bg-red-500/10 transition-all opacity-60 hover:opacity-100 disabled:opacity-30 disabled:pointer-events-none"
+                  title={isStaticMode ? "Disabled in Archive Mode" : "Remove Judge"}
                 >
                   <Trash2 className="w-4 h-4" />
                 </button>

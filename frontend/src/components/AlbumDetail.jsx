@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { api } from '../utils/api';
+import { api, isStaticMode } from '../utils/api';
 import { Clock, Play, ChevronDown, ChevronUp, Star, Trash2 } from 'lucide-react';
 
 export default function AlbumDetail({ release, artist, users, onClose, onRefreshArtist }) {
@@ -194,7 +194,8 @@ export default function AlbumDetail({ release, artist, users, onClose, onRefresh
                                     onChange={(e) => handleScoreChange(track.id, user.id, e.target.value)}
                                     onMouseUp={() => handleSaveScore(track.id, user.id, scoreVal)}
                                     onTouchEnd={() => handleSaveScore(track.id, user.id, scoreVal)}
-                                    className="w-full accent-sky-500 bg-white/10 rounded-lg appearance-none h-1.5 cursor-pointer"
+                                    disabled={isStaticMode}
+                                    className="w-full accent-sky-500 bg-white/10 rounded-lg appearance-none h-1.5 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                                   />
                                   <input
                                     type="number"
@@ -208,7 +209,8 @@ export default function AlbumDetail({ release, artist, users, onClose, onRefresh
                                       handleScoreChange(track.id, user.id, v);
                                     }}
                                     onBlur={() => handleSaveScore(track.id, user.id, scoreVal)}
-                                    className="bg-white/5 border border-white/10 rounded-lg px-2 py-1 text-center text-xs text-white w-12 font-bold focus:outline-none focus:ring-1 focus:ring-sky-500"
+                                    disabled={isStaticMode}
+                                    className="bg-white/5 border border-white/10 rounded-lg px-2 py-1 text-center text-xs text-white w-12 font-bold focus:outline-none focus:ring-1 focus:ring-sky-500 disabled:opacity-50 disabled:cursor-not-allowed"
                                   />
                                 </div>
 
@@ -217,9 +219,9 @@ export default function AlbumDetail({ release, artist, users, onClose, onRefresh
                                     handleScoreChange(track.id, user.id, '');
                                     handleSaveScore(track.id, user.id, '');
                                   }}
-                                  disabled={scoreVal === ''}
-                                  className="p-1 rounded text-gray-500 hover:text-red-400 transition-colors disabled:opacity-30"
-                                  title="Clear Score"
+                                  disabled={isStaticMode || scoreVal === ''}
+                                  className="p-1 rounded text-gray-500 hover:text-red-400 transition-colors disabled:opacity-30 disabled:pointer-events-none"
+                                  title={isStaticMode ? "Disabled in Archive Mode" : "Clear Score"}
                                 >
                                   <Trash2 className="w-3.5 h-3.5" />
                                 </button>

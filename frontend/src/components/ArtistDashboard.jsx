@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { api } from '../utils/api';
+import { api, isStaticMode } from '../utils/api';
 import { Search, Plus, MapPin, Users, Calendar, FileText, ChevronRight, CornerDownRight, Save, Loader } from 'lucide-react';
 import GlassCard from './GlassCard';
 
@@ -199,8 +199,8 @@ export default function ArtistDashboard({ currentUser, users, onSelectAlbum }) {
               </div>
               <button
                 onClick={handleSaveNotes}
-                disabled={savingNotes}
-                className="flex items-center gap-1 text-xs bg-pink-500/10 border border-pink-500/20 text-pink-400 font-semibold px-2.5 py-1.5 rounded-xl hover:bg-pink-500 hover:text-white transition-all duration-300 disabled:opacity-50"
+                disabled={isStaticMode || savingNotes}
+                className="flex items-center gap-1 text-xs bg-pink-500/10 border border-pink-500/20 text-pink-400 font-semibold px-2.5 py-1.5 rounded-xl hover:bg-pink-500 hover:text-white transition-all duration-300 disabled:opacity-50 disabled:pointer-events-none"
               >
                 {savingNotes ? 'Saving...' : (
                   <>
@@ -213,8 +213,9 @@ export default function ArtistDashboard({ currentUser, users, onSelectAlbum }) {
             <textarea
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
-              placeholder="Write custom notes, tone details, tuning systems, or review descriptions here..."
-              className="flex-1 bg-white/5 border border-white/5 focus:border-white/10 rounded-xl p-3.5 text-xs text-gray-300 focus:outline-none placeholder-gray-600 resize-none font-medium h-[150px] leading-relaxed"
+              placeholder={isStaticMode ? "Notes are read-only in Archive Mode." : "Write custom notes, tone details, tuning systems, or review descriptions here..."}
+              disabled={isStaticMode}
+              className="flex-1 bg-white/5 border border-white/5 focus:border-white/10 rounded-xl p-3.5 text-xs text-gray-300 focus:outline-none placeholder-gray-600 resize-none font-medium h-[150px] leading-relaxed disabled:opacity-50 disabled:cursor-not-allowed"
             />
           </div>
         </div>
@@ -313,19 +314,19 @@ export default function ArtistDashboard({ currentUser, users, onSelectAlbum }) {
         </div>
 
         {/* Add Artist Panel */}
-        <form onSubmit={handleAddArtist} className="flex items-center gap-2 bg-white/5 border border-white/10 p-1.5 rounded-2xl w-full md:w-auto md:min-w-[350px]">
+        <form onSubmit={handleAddArtist} className="flex items-center gap-2 bg-white/5 border border-white/10 p-1.5 rounded-2xl w-full md:w-auto md:min-w-[350px] disabled:opacity-50">
           <input
             type="text"
             value={newArtistName}
             onChange={(e) => setNewArtistName(e.target.value)}
-            placeholder="Add new band (e.g. TesseracT)..."
-            disabled={adding}
-            className="bg-transparent text-sm text-white focus:outline-none px-3.5 py-2.5 flex-1 placeholder-gray-500 font-semibold"
-            required
+            placeholder={isStaticMode ? "Scraper disabled in Archive" : "Add new band (e.g. TesseracT)..."}
+            disabled={isStaticMode || adding}
+            className="bg-transparent text-sm text-white focus:outline-none px-3.5 py-2.5 flex-1 placeholder-gray-500 font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
+            required={!isStaticMode}
           />
           <button
             type="submit"
-            disabled={adding || !newArtistName.trim()}
+            disabled={isStaticMode || adding || !newArtistName.trim()}
             className="bg-gradient-to-r from-sky-500 to-indigo-500 hover:from-sky-600 hover:to-indigo-600 text-white font-bold p-2.5 rounded-xl transition-all duration-300 disabled:opacity-50 flex items-center justify-center"
           >
             {adding ? <Loader className="w-5 h-5 animate-spin" /> : <Plus className="w-5 h-5" />}
